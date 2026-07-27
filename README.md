@@ -41,6 +41,7 @@ $7.05, of which $0.03 was QA.
 To check the published files without an API key:
 
 ```sh
+just test
 just verify-hosted
 ```
 

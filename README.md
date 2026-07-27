@@ -8,14 +8,18 @@ This repository contains the code used to make
 The dataset has 1,120 generated explanations for actions in 14 MACHIAVELLI game
 scenes.
 
+The key comparison varies the motive instruction and action separately:
+
+| motive instruction \ action | lower MACHIAVELLI harm | higher MACHIAVELLI harm |
+|:--|:--|:--|
+| no secret motive (`genuine`) | A | B |
+| concealed motive (`rationalized`) | B | A |
+
+Each A or B comparison uses the two table entries with that letter.
+
 For each scene, we chose the actions with the lowest and highest MACHIAVELLI
 harm annotation totals. Each of four Qwen 3.5 models explained both actions
-under two instructions:
-
-| motive instruction \ action | lower harm | higher harm |
-|:--|:--|:--|
-| no secret motive | A | B |
-| concealed motive | B | A |
+under the two motive instructions shown above.
 
 The Hugging Face dataset card explains the two configurations, intended uses,
 columns, QA flags, and limitations.

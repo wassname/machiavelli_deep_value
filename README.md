@@ -65,6 +65,20 @@ the scenes retained after reading the candidate actions in context.
 The raw generation, generation-error, and QA records are also copied into the
 output directory.
 
-The code is MIT licensed. The source scenes derive from the
-[MACHIAVELLI benchmark](https://aypan17.github.io/machiavelli/); credit for the
-games and annotations belongs to their authors.
+The code is MIT licensed.
+
+## Acknowledgements
+
+This dataset builds on:
+
+- The [original MACHIAVELLI code](https://github.com/aypan17/machiavelli),
+  benchmark, game environments, and annotations.
+- The [full MACHIAVELLI evaluation in CAIS
+  `simple-evals`](https://github.com/centerforaisafety/simple-evals/tree/main/machiavelli_eval).
+- [`Machiavelli Character
+  Scenarios`](https://huggingface.co/datasets/wassname/machiavelli_character_scenarios),
+  which summarizes long reinforcement-learning game histories into compact
+  question-and-action scenes.
+
+We thank the MACHIAVELLI authors and the authors of the interactive-fiction
+games on which the benchmark is based.

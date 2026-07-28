@@ -21,6 +21,13 @@ For each scene, we chose the actions with the lowest and highest MACHIAVELLI
 harm annotation totals. Each of four Qwen 3.5 models explained both actions
 under the two motive instructions shown above.
 
+| explanation model | [Artificial Analysis score](https://artificialanalysis.ai/?models=qwen3-5-9b%2Cqwen3-5-27b%2Cqwen3-5-397b-a17b%2Cqwen3-5-122b-a10b%2Cqwen3-5-35b-a3b) |
+|:--|--:|
+| Qwen 3.5 9B | 21 |
+| Qwen 3.5 35B-A3B | 29 |
+| Qwen 3.5 122B-A10B | 32 |
+| Qwen 3.5 397B-A17B | 34 |
+
 The Hugging Face dataset card explains the two configurations, intended uses,
 columns, QA flags, and limitations.
 

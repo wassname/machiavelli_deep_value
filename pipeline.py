@@ -140,6 +140,7 @@ def openrouter_client():
     return OpenAI(
         base_url="https://openrouter.ai/api/v1",
         api_key=os.environ["OPENROUTER_API_KEY"],
+        max_retries=10,
     )
 
 
@@ -270,7 +271,7 @@ def generate():
     logger.info(f"GENERATE: {len(cached)} cached, {len(jobs)} calls")
     client = openrouter_client()
     errors = 0
-    with ThreadPoolExecutor(max_workers=8) as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor:
         futures = [executor.submit(generate_one, client, job) for job in jobs]
         for index, future in enumerate(as_completed(futures), 1):
             record = future.result()

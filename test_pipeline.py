@@ -1,5 +1,12 @@
 import prompts
-from pipeline import account_text, last_json, pair_quality
+from pipeline import (
+    EXTENSION_MODELS,
+    FIXED_PROVIDER,
+    MODELS,
+    account_text,
+    last_json,
+    pair_quality,
+)
 
 
 SCENE = {
@@ -52,3 +59,9 @@ def test_pair_quality_reports_flags_without_removing_rows():
     flagged = {**clear, "confession": True}
     _, reasons = pair_quality(genuine, rationalized, clear, flagged)
     assert reasons == ["confession"]
+
+
+def test_capability_extension_models_are_pinned():
+    assert len(MODELS) == 6
+    assert EXTENSION_MODELS == ("qwen/qwen3.7-max", "moonshotai/kimi-k3")
+    assert set(FIXED_PROVIDER) == set(EXTENSION_MODELS)

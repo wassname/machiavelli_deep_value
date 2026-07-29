@@ -18,12 +18,21 @@ from openai import OpenAI
 import prompts
 from quality import rejection_reason
 
+EXTENSION_MODELS = (
+    "qwen/qwen3.7-max",
+    "moonshotai/kimi-k3",
+)
 MODELS = (
     "qwen/qwen3.5-9b",
     "qwen/qwen3.5-35b-a3b",
     "qwen/qwen3.5-122b-a10b",
     "qwen/qwen3.5-397b-a17b",
+    *EXTENSION_MODELS,
 )
+FIXED_PROVIDER = {
+    "qwen/qwen3.7-max": "Alibaba",
+    "moonshotai/kimi-k3": "Modal",
+}
 SOURCE_DATASET = "wassname/machiavelli_character_scenarios"
 SOURCE_REVISION = "abd8b004486440919dc9850ef7c34098e79ccbce"
 HOSTED_DATASET = "wassname/machiavelli_deep_value"
@@ -175,6 +184,13 @@ def generate_one(client, job):
     user_prompt = prompts.generation_prompt(
         scene["row"], action, rationalized=condition == "rationalized"
     )
+    extra_body = {"reasoning": {"enabled": True}}
+    if agent in FIXED_PROVIDER:
+        extra_body["provider"] = {
+            "order": [FIXED_PROVIDER[agent]],
+            "allow_fallbacks": False,
+            "require_parameters": True,
+        }
     response = client.chat.completions.create(
         model=agent,
         messages=[{"role": "user", "content": user_prompt}],
@@ -182,7 +198,7 @@ def generate_one(client, job):
         max_tokens=32000,
         timeout=900,
         response_format={"type": "json_object"},
-        extra_body={"reasoning": {"enabled": True}},
+        extra_body=extra_body,
     )
     choice = response.choices[0]
     content = (choice.message.content or "").strip()
@@ -271,6 +287,49 @@ def generate():
     first = records[(MODELS[0], selected_source_ids()[0], "moral", "genuine", 0)]
     logger.info(f"FIRST GENERATION PROMPT\n{first['user_prompt']}")
     logger.info(f"FIRST GENERATION REPLY\n{first['completion']}")
+
+
+def smoke():
+    scenes = load_scenes()
+    scene = scenes[selected_source_ids()[0]]
+    output_path = RUN / "extension_smoke.jsonl"
+    cached = {
+        record_key(row)
+        for row in read_jsonl(output_path)
+        if "usage" in row and "error" not in row
+    }
+    jobs = [
+        (agent, scene, action_label, condition, 0)
+        for agent in EXTENSION_MODELS
+        for action_label in ("moral", "immoral")
+        for condition in ("genuine", "rationalized")
+        if (agent, scene["source_id"], action_label, condition, 0) not in cached
+    ]
+    logger.info(f"SMOKE: {len(cached)} cached, {len(jobs)} calls")
+    client = openrouter_client()
+    for job in jobs:
+        record = generate_one(client, job)
+        append_jsonl(output_path, record)
+        if "error" in record:
+            raise ValueError(record["error"])
+
+    records = {
+        record_key(row): row
+        for row in read_jsonl(output_path)
+        if "error" not in row
+    }
+    if len(records) != 8:
+        raise ValueError(f"{output_path}: found {len(records)} of 8 successful records")
+    for key in sorted(records):
+        record = records[key]
+        logger.info(
+            f"SMOKE RECORD {key}\n"
+            f"PROMPT\n{record['user_prompt']}\n"
+            f"REASONING\n{record['reasoning']}\n"
+            f"REPLY\n{record['completion']}\n"
+            f"PROVIDER {record['provider']}; FINISH {record['finish_reason']}; "
+            f"USAGE {record['usage']}"
+        )
 
 
 def parse_qa_reply(text):
@@ -505,10 +564,10 @@ def export():
 
 def verify_frames(development, heldout, train, test):
     expected = {
-        "development": (development, 360),
-        "heldout": (heldout, 200),
-        "train": (train, 280),
-        "test": (test, 280),
+        "development": (development, len(MODELS) * 9 * 2 * SAMPLES),
+        "heldout": (heldout, len(MODELS) * 5 * 2 * SAMPLES),
+        "train": (train, len(MODELS) * 14 * SAMPLES),
+        "test": (test, len(MODELS) * 14 * SAMPLES),
     }
     for name, (frame, count) in expected.items():
         if frame.height != count:
@@ -535,8 +594,9 @@ def verify_frames(development, heldout, train, test):
         raise ValueError("Deep Value action pairings are wrong")
 
     logger.info(
-        "VERIFIED: game_split 360 development + 200 heldout; "
-        "deep_value 280 train A + 280 test B; account columns first"
+        f"VERIFIED: game_split {development.height} development + "
+        f"{heldout.height} heldout; deep_value {train.height} train A + "
+        f"{test.height} test B; account columns first"
     )
 
 
@@ -568,10 +628,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "phase",
-        choices=("generate", "qa", "export", "verify-local", "verify-hosted"),
+        choices=("smoke", "generate", "qa", "export", "verify-local", "verify-hosted"),
     )
     phase = parser.parse_args().phase
     {
+        "smoke": smoke,
         "generate": generate,
         "qa": qa,
         "export": export,

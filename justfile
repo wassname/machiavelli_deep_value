@@ -1,3 +1,6 @@
+smoke:
+    uv run python pipeline.py smoke
+
 generate:
     uv run python pipeline.py generate
 

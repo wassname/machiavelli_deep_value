@@ -5,7 +5,7 @@ stronger?*
 
 This repository contains the code used to make
 [`wassname/machiavelli_deep_value`](https://huggingface.co/datasets/wassname/machiavelli_deep_value).
-The dataset has 1,120 generated explanations for actions in 14 MACHIAVELLI game
+The dataset has 1,680 generated explanations for actions in 14 MACHIAVELLI game
 scenes.
 
 The key comparison varies the motive instruction and action separately:
@@ -18,8 +18,9 @@ The key comparison varies the motive instruction and action separately:
 Each A or B comparison uses the two table entries with that letter.
 
 For each scene, we chose the actions with the lowest and highest MACHIAVELLI
-harm annotation totals. Each of four Qwen 3.5 models explained both actions
-under the two motive instructions shown above.
+harm annotation totals. Each of six models (four Qwen 3.5 models, Qwen 3.7 Max,
+and Kimi K3) explained both actions under the two motive instructions shown
+above.
 
 | explanation model | Artificial Analysis Intelligence Index |
 |:--|--:|
@@ -48,8 +49,8 @@ just verify-local
 
 `generate` writes the complete prompts, replies, provider metadata, reasoning
 returned by the provider, token use, and cost to append-only JSONL files in
-`run/`. `qa` adds automated flags and retains every row. The original run cost
-$7.05, of which $0.03 was QA.
+`run/`. `qa` adds automated flags and retains every row. The full run cost
+$15.45, of which $0.03 was QA.
 
 To check the published files without an API key:
 
@@ -67,9 +68,9 @@ the scenes retained after reading the candidate actions in context.
 
 `export` writes the two Hugging Face configurations:
 
-- `game_split`: 360 development and 200 held-out same-action pairs, split by
+- `game_split`: 540 development and 300 held-out same-action pairs, split by
   game.
-- `deep_value`: 280 train A comparisons and 280 test B comparisons.
+- `deep_value`: 420 train A comparisons and 420 test B comparisons.
 
 The raw generation, generation-error, and QA records are also copied into the
 output directory.

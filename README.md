@@ -34,6 +34,16 @@ above.
 The Hugging Face dataset card explains the two configurations, intended uses,
 columns, QA flags, and limitations.
 
+## Evaluation snapshot
+
+A fixed Gemma 4 31B judge compared the assigned motives in both account orders.
+With no rubric, crossed-set accuracy declines slightly across the five Qwen
+explanation models; Kimi K3 is shown separately because it is from another model
+family. This describes the judge finding the generated accounts harder to
+classify, not stronger models concealing motives better.
+
+![No-rubric assigned-motive accuracy by explanation-model capability](results/no_rubric_motive_by_agent.svg)
+
 ## Reproduce it
 
 Install [uv](https://docs.astral.sh/uv/), then run:

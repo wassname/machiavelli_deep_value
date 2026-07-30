@@ -1,13 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
   <rect width="760" height="420" fill="white"/>
   <g font-family="sans-serif" fill="#222">
-    <text x="380" y="30" text-anchor="middle" font-size="18">Assigned-motive accuracy across five Qwen models</text>
-    <text x="380" y="52" text-anchor="middle" font-size="11" fill="#555">no rubric; fixed Gemma 4 31B judge; crossed action-harm set</text>
+    <text x="380" y="24" text-anchor="middle" font-size="18">Assigned-motive accuracy across four open Qwen 3.5 models</text>
+    <text x="380" y="46" text-anchor="middle" font-size="11" fill="#555">no rubric; fixed Gemma 4 31B judge (AA 29); crossed action-harm set</text>
+    <text x="440" y="70" text-anchor="end" font-size="10" fill="#555">weak to strong ←</text>
+    <text x="464" y="70" text-anchor="middle" font-size="10" font-weight="bold" fill="#444">| judge |</text>
+    <text x="488" y="70" text-anchor="start" font-size="10" fill="#555">→ strong to weak</text>
 
     <line x1="70" y1="330" x2="710" y2="330" stroke="#777" stroke-width="0.8"/>
     <line x1="70" y1="85" x2="70" y2="330" stroke="#777" stroke-width="0.8"/>
     <line x1="70" y1="207.5" x2="710" y2="207.5" stroke="#999" stroke-width="1" stroke-dasharray="5 4"/>
     <text x="706" y="201.5" text-anchor="end" font-size="10" fill="#666">chance</text>
+    <line x1="463.8" y1="85" x2="463.8" y2="330" stroke="#999" stroke-width="1" stroke-dasharray="3 4"/>
 
     <text x="58" y="334" text-anchor="end" font-size="10" fill="#555">0.25</text>
     <text x="58" y="272.75" text-anchor="end" font-size="10" fill="#555">0.375</text>
@@ -16,26 +20,24 @@
     <text x="58" y="89" text-anchor="end" font-size="10" fill="#555">0.75</text>
     <text x="17" y="207.5" text-anchor="middle" font-size="12" transform="rotate(-90 17 207.5)">crossed-set accuracy</text>
 
-    <line x1="70" y1="171.7" x2="710" y2="208" stroke="#333" stroke-width="1.6"/>
-    <text x="700" y="224" text-anchor="end" font-size="10" fill="#444">fit: -0.003 accuracy / AA point</text>
+    <line x1="70" y1="150.5" x2="710" y2="210.5" stroke="#333" stroke-width="1.6"/>
+    <text x="700" y="226" text-anchor="end" font-size="10" fill="#444">fit: -0.009 accuracy / AA point</text>
 
     <g fill="#333">
       <circle cx="70" cy="158.5" r="4.5"/>
-      <circle cx="274.8" cy="165.4" r="4.5"/>
-      <circle cx="351.6" cy="204.1" r="4.5"/>
-      <circle cx="402.8" cy="221.7" r="4.5"/>
-      <rect x="705.5" y="185.4" width="9" height="9"/>
+      <circle cx="463.8" cy="165.4" r="4.5"/>
+      <circle cx="611.5" cy="204.1" r="4.5"/>
+      <circle cx="710" cy="221.7" r="4.5"/>
     </g>
 
     <g font-size="10" fill="#555">
       <text x="70" y="347" text-anchor="middle">21</text>
-      <text x="274.8" y="347" text-anchor="middle">29</text>
-      <text x="351.6" y="347" text-anchor="middle">32</text>
-      <text x="402.8" y="347" text-anchor="middle">34</text>
-      <text x="710" y="347" text-anchor="middle">46</text>
+      <text x="463.8" y="347" text-anchor="middle">29</text>
+      <text x="611.5" y="347" text-anchor="middle">32</text>
+      <text x="710" y="347" text-anchor="middle">34</text>
     </g>
 
     <text x="380" y="378" text-anchor="middle" font-size="11" fill="#555">Artificial Analysis score</text>
-    <text x="380" y="402" text-anchor="middle" font-size="10" fill="#666">circles: Qwen 3.5; square: Qwen 3.7 Max; line: five-model linear fit</text>
+    <text x="380" y="402" text-anchor="middle" font-size="10" fill="#666">Qwen 3.5: 9B, 35B-A3B, 122B-A10B, 397B-A17B; line: four-model fit</text>
   </g>
 </svg>

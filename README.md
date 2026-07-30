@@ -37,11 +37,13 @@ columns, QA flags, and limitations.
 ## Evaluation snapshot
 
 A fixed Gemma 4 31B judge compared the assigned motives in both account orders.
-With no rubric, crossed-set accuracy declines slightly across the five Qwen
-explanation models. This describes the judge finding the generated accounts
-harder to classify, not stronger models concealing motives better.
+With no rubric, crossed-set accuracy declines across the four open Qwen 3.5
+explanation models. Qwen 3.7 Max and Kimi K3 are omitted from this headline
+because they are not from the same open model generation. This describes the
+judge finding the generated accounts harder to classify, not stronger models
+concealing motives better.
 
-![No-rubric assigned-motive accuracy across five Qwen explanation models](results/no_rubric_motive_by_agent.svg)
+![No-rubric assigned-motive accuracy across four open Qwen 3.5 explanation models](results/no_rubric_motive_by_agent.svg)
 
 ## Reproduce it
 
